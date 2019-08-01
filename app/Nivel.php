@@ -9,6 +9,7 @@ class Nivel extends Model
     protected $table = 'nivel';
 
     protected $fillable = ['nome'];
+    public $timestamps = false; 
 
     public function usuarios(){
         return $this->hasMany('App\Usuario');

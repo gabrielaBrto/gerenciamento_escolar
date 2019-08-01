@@ -7,21 +7,27 @@
     <title>Document</title>
 </head>
 <body>
-    <form method="POST" action="{{ url('/') }}">
+    <form method="POST" action="{{ url((isset($usuario) ? $usuario->id : '')) }}">
+
+    @if(isset($usuario))
+        @method('PUT')
+    @endif
+    <!-- CRIANDO => URL('/')
+    ATUALIZANDO => URL('/{id}') -->
     @csrf
         <label for="nome">Nome</label>
-        <input type="text" name="nome"><br>
+        <input value="{{ isset($usuario) ?  $usuario->nome : ''}}" type="text" name="nome"><br>
 
         <br><label for="email">Email</label>
-        <input type="text" name="email"><br>
+        <input  value="{{ isset($usuario) ?  $usuario->email : ''}}" type="text" name="email"><br>
 
         <br><label for="data_nascimento">Data Nascimento</label>
-        <input type="text" name="data_nascimento"><br>
+        <input value="{{ isset($usuario) ?  $usuario->data_nascimento : ''}}" type="text" name="data_nascimento"><br>
         
         <br><label for="nivel">Nivel</label><br>
         <select name="nivel_id">
             @foreach($niveis as $nivel)
-                <option value="{{ $nivel->id }}">{{ $nivel->nome }}</option>
+                <option {{ isset($usuario) && $usuario->nivel_id == $nivel->id ? 'selected' : '' }} value="{{ $nivel->id }}">{{ $nivel->nome }}</option>
             @endforeach
         </select><br><br>
 
