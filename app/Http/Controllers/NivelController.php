@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Nivel;
+use App\Http\Requests\NivelRequest;
 
 class NivelController extends Controller
 {
@@ -18,9 +19,10 @@ class NivelController extends Controller
         return view('nivel/form');
     }
 
-    public function store(Request $request){
+    public function store(NivelRequest $request){
         $nivel = Nivel::create([
             'nome' => $request->nome,
+
         ]);
 
         return redirect('/nivel/form');

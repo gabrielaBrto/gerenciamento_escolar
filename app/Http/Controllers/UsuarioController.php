@@ -6,30 +6,32 @@ use Illuminate\Http\Request;
 
 use App\{Nivel, Usuario};
 
+use App\Http\Requests\UsuarioStoreRequest;
 class UsuarioController extends Controller{
 
     public function index(){
         $usuarios = Usuario::all();
-        return view('index', compact('usuarios'));
+        $usuariosDeletados = Usuario::onlyTrashed()->get();
+
+        return view('index', compact('usuarios','usuariosDeletados'));
     }
 
-    public function soma($a, $b){
-        return 'Soma '.($a + $b);
-    }
+   
 
     public function create(){
         $niveis = Nivel::all();
         return view('form', compact('niveis'));
     }
 
-    public function store(Request $request){
-        $usuario = Usuario::create([
-            'nome' => $request->nome,
-            'email' => $request->email,
-            'data_nascimento' => $request->data_nascimento,
-            'nivel_id' => $request->nivel_id
-        ]);
-
+    public function store(UsuarioStoreRequest $request) {
+        
+        // Usuario::create([
+        //     'nome' => $request->nome,
+        //     'email' => $request->email,
+        //     'data_nascimento' => $request->data_nascimento,
+        //     'nivel_id' => $request->nivel_id
+        // ]);
+        Usuario::create($request->all());
         return redirect('/');
     }
 
@@ -53,6 +55,18 @@ class UsuarioController extends Controller{
 
         $usuario->update($request->all());        
         return redirect('/');
+    }
+
+    public function destroy($id){
+        $usuario = Usuario::findOrFail($id);
+        $usuario->delete();
+        return back();
+    }
+
+    public function restore($id){
+        $usuario = Usuario::onlyTrashed()->findOrFail($id);
+        $usuario->restore();
+        return back();
     }
 
     

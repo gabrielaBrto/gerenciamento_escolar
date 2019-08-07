@@ -21,6 +21,7 @@
                 <td>{{$nivel->nome}}</td>
                 <th><button><a href="{{url('/nivel/'.$nivel->id.'/edit')}}">Editar</a></button></th>
             </tr>
+
         @endforeach
     </table>
     <hr>

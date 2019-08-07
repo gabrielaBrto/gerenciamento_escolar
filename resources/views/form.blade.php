@@ -7,29 +7,39 @@
     <title>Document</title>
 </head>
 <body>
-    <form method="POST" action="{{ url((isset($usuario) ? $usuario->id : '')) }}">
+    <form method="POST" action="{{ url('/'.(isset($usuario) ? $usuario->id : '') ) }}">
+    @csrf
 
     @if(isset($usuario))
         @method('PUT')
     @endif
-    <!-- CRIANDO => URL('/')
-    ATUALIZANDO => URL('/{id}') -->
-    @csrf
+    
+    <!-- @foreach($errors->all() as $error)
+        {{$error}}
+        <br>
+    @endforeach -->
+
         <label for="nome">Nome</label>
-        <input value="{{ isset($usuario) ?  $usuario->nome : ''}}" type="text" name="nome"><br>
-
+        <input value="{{ old('nome', isset($usuario) ?  $usuario->nome : '')}}" type="text" name="nome"><br>   
+        <span style="color:red">{{$errors->first('nome')}}</span>
+        
         <br><label for="email">Email</label>
-        <input  value="{{ isset($usuario) ?  $usuario->email : ''}}" type="text" name="email"><br>
-
+        <input  value="{{ old('email', isset($usuario) ?  $usuario->email : '')}}" type="text" name="email"><br>
+        <span style="color:red">{{$errors->first('email')}}</span>
+        
         <br><label for="data_nascimento">Data Nascimento</label>
-        <input value="{{ isset($usuario) ?  $usuario->data_nascimento : ''}}" type="text" name="data_nascimento"><br>
+        <input value="{{ old('data_nascimento', isset($usuario) ?  $usuario->data_nascimento : '')}}" type="text" name="data_nascimento"><br>
+        <span style="color:red">{{$errors->first('data_nascimento')}}</span>
         
         <br><label for="nivel">Nivel</label><br>
         <select name="nivel_id">
             @foreach($niveis as $nivel)
                 <option {{ isset($usuario) && $usuario->nivel_id == $nivel->id ? 'selected' : '' }} value="{{ $nivel->id }}">{{ $nivel->nome }}</option>
             @endforeach
-        </select><br><br>
+        </select>
+        <span style="color:red">{{$errors->first('nivel_id')}}</span>
+        <br><br>
+
 
         <input type="submit" value="Enviar">
     </form>

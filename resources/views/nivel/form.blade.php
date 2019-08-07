@@ -1,22 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Criação de Níveis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
+    <form method="POST" action="{{url(isset($nivel) ? 'nivel/'.$nivel->id : 'nivel/')}}">
 
-<form action="{{ url((isset($nivel) ? '/nivel/'.$nivel->id : '/nivel/form')) }}" method="post">
-@if(isset($nivel))
-        @method('PUT')
-    @endif
-@csrf
-<label for="nivel">niveis de usuario</label>
-    <input value="{{ isset($nivel) ?  $nivel->nome : ''}}" type="text" name="nome">
-    <input type="submit" value="Enviar">
-</form>
-    
+        @csrf
+
+        @if(isset($nivel))
+            @method('PUT')
+        @endif
+
+        <label for="nome">Nome</label>
+        <input value="{{isset($nivel) ? $nivel->nome : ''}}" type="text" name="nome" id="nome"><br>
+        <span style="color:red">{{$errors->first('nome')}}</span>
+        <br>
+
+        <input type="submit" value="Enviar">
+    </form>
 </body>
 </html>
