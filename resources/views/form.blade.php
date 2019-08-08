@@ -7,6 +7,17 @@
     <title>Document</title>
 </head>
 <body>
+
+    <div>
+        @if(Session::has('success'))
+            <p style="color:green">{{Session::get('success')}}</p>
+        @endif
+
+        @if(Session::has('error'))
+            <p style="color:red">{{Session::get('error')}}</p>
+        @endif
+    </div>
+
     <form method="POST" action="{{ url('/'.(isset($usuario) ? $usuario->id : '') ) }}">
     @csrf
 
@@ -30,7 +41,14 @@
         <br><label for="data_nascimento">Data Nascimento</label>
         <input value="{{ old('data_nascimento', isset($usuario) ?  $usuario->data_nascimento : '')}}" type="text" name="data_nascimento"><br>
         <span style="color:red">{{$errors->first('data_nascimento')}}</span>
-        
+        <br><br>
+        <select name="materias[]" multiple>
+            @foreach($materias as $materia)
+                <option value="{{$materia->id}}" >{{$materia->nome}}</option>
+            @endforeach 
+        </select>
+
+        <br>
         <br><label for="nivel">Nivel</label><br>
         <select name="nivel_id">
             @foreach($niveis as $nivel)

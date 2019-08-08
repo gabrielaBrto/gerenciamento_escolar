@@ -19,4 +19,12 @@ class Usuario extends Model
     
     }
 
+
+    public function materias() {
+        return $this->belongsToMany('App\Materia', 'usuario_materia');
+
+        // return $this->belongsToMany('App\Materia', 'usuario_materia')->withPivot('carga_horaria');
+        
+    }
+
 }
